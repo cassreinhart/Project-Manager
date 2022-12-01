@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Assignee
+{% endblock %}
+
+{% block content %}
+<div>
+    <h3>New Assignment for {{project.name}}</h3>
+    <form method="post" id="add-assignment-form">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <p>
+            {{ field.label }}
+            {{ field }}
+
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </p>
+        {% endfor %}
+        <button type="submit">Add Assignment</button>
+    </form>
+</div>
+{% endblock %}

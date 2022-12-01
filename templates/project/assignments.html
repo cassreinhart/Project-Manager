@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{project.name}} Assignments
+{% endblock %}
+
+{% block content %}
+<div>
+    <h3>Assignees for {{project.name}}</h3>
+    {% if people %}
+    <ul>
+        {% for p in people %}
+        <li>Name: {{p.name}} <a href="mailto:{{p.email}}">{{p.email}}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nobody Assigned Yet</p>
+    {% endif %}
+    <form action="/projects/{project.id}/assignments/add">
+        <button type="submit">Add Assignment</button>
+    </form>
+</div>
+{% endblock %}

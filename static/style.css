@@ -1,0 +1,21 @@
+body {
+    background-color: #2f2c33;
+    color: #d9d5de;
+    font-family: sans-serif;
+    margin: 0;
+}
+nav {
+    background-color: #434147;
+    width:100%;
+    margin: 0;
+}
+nav ul {
+    list-style: none;
+}
+li a {
+    color: #d9d5de;
+    text-decoration: none;
+}
+section {
+    border: 3px solid slateblue;
+}

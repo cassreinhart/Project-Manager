@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+Projects
+{% endblock title %}
+{% block content %}
+    <div class="welcome">
+    <h1>Let's get stuff done.</h1>
+        <h2>My Projects</h2>
+        {% if projects %}
+        <ul>
+            {% for p in projects %}
+            <li>
+                <a href="/projects/{{p.id}}">{{ p.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Nothing Here Yet!</p>
+        
+        {% endif %}
+    </div>
+    <div>
+        <h3>Add a Project</h3>
+        <form method="post" id="add-project-form">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+            <p>
+                {{ field.label }}
+                {{ field }}
+
+                {% for error in field.errors %}
+                {{ error }}
+                {% endfor %}
+            </p>
+            {% endfor %}
+            <button type="submit">Create New Project</button>
+        </form>
+    </div>
+{% endblock %}

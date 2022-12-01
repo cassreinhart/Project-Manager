@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+New Message
+{% endblock %}
+
+{% block content %}
+<div>
+    <h3>Send a New Message</h3>
+    <form method="post" id="new-message-form">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <p>
+            {{ field.label }}
+            {{ field }}
+
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </p>
+        {% endfor %}
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock %}
