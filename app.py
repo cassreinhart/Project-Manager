@@ -6,7 +6,7 @@ from authlib.integrations.flask_client import OAuth
 
 from forms import ProjectForm, PeopleForm, TodoForm, AssignmentForm, MessageForm
 from models import db, connect_db, People, Project, PeopleProject, Message, Todo
-from sqlalchemy.exc import IntegrityError
+# from sqlalchemy.exc import IntegrityError
 
 # from dotenv import auth_uri
 
@@ -140,7 +140,9 @@ def add_todo_to_project(project_id):
     form.project.choices = projects
 
     if form.validate_on_submit():
+        print(form.data)
         name = form.data.name
+        print(name)
         detail = form.data.detail
         project_id = form.data.project_id
         new_todo = Todo(name=name, detail=detail, project_id = project_id)

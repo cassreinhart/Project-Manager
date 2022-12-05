@@ -10,16 +10,18 @@
     
     <title>{% block title %}{% endblock title %}</title>
 </head>
-<body>
-    <nav>
-        <a><i class="fa-solid fa-bars"></i></a>
-        <ul class="navbar-list">
-            <li class="navbar-list-item"><a href="/">Logo(home)</a> </li>
-            <li class="navbar-list-item"><a href="/projects">Projects</a></li>
-            <li class="navbar-list-item"><a href="/person/add">Person</a></li>
-            <li class="navbar-list-item"><a href="/message">Message</a></li>
-        </ul>
-    </nav>
+<body> 
+    <header>
+        <nav>
+            <a href="/"><img src="/static/project_manager_logo.png" alt="project_manager_logo" id="logo"></a>
+            <ul class="navbar-list">
+                <li class="navbar-list-item"><a href="/projects">Projects</a></li>
+                <li class="navbar-list-item"><a href="/person/add">Assign</a></li>
+                <li class="navbar-list-item"><a href="/message">Message</a></li>
+            </ul>
+            <a id="dropdown-menu-icon"><i class="fa-solid fa-bars fa-4x"></i></a>
+        </nav>
+    </header>
     <section>
     {% block content %}
     {% endblock %}
@@ -32,4 +34,5 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script src="/static/js/nav.js"></script>
 </html>
