@@ -89,11 +89,21 @@ div {
 }
 
 @media screen and (min-width:800px) {
+    nav {
+        height: auto;
+    }
     .navbar-list {
         position: relative;
         /* height: fit-content; */
+        left: 0;
+        top: 0;
+        height: inherit;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
+    }
+    .navbar-list-item {
+        border: none;
+        height: inherit;
     }
 }
