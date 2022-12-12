@@ -48,10 +48,10 @@ class User(db.Model):
     )
 
     @classmethod
-    def register(cls, username, pwd, email, full_name,):
+    def register(cls, username, password, email, full_name,):
         """Register user with hashed password, return user"""
 
-        hashed = bcrypt.generate_password_hash(pwd)
+        hashed = bcrypt.generate_password_hash(password)
         hashed_utf8 = hashed.decode('utf8')
         user = cls(
             username=username, 
@@ -80,8 +80,8 @@ class Project(db.Model):
     __tablename__ = 'project'
 
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(250), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
     assignments = db.relationship('UserProject', backref='project')
     messages = db.relationship('Message')
     todos = db.relationship('Todo')
@@ -113,3 +113,9 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow(),)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete="cascade"))
 
+class Team(db.Model):
+    """Users on your team."""
+
+    __tablename__ = 'team'
+
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)

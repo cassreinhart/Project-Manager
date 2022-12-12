@@ -66,8 +66,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(), EqualTo('confirm', message="Passwords must match")])
     confirm = PasswordField("Repeat Password")
     email = EmailField("Email", validators=[InputRequired(), Email()])
-    first_name = StringField("First Name", validators=[InputRequired()])
-    last_name = StringField("Last Name", validators=[InputRequired()])
+    full_name = StringField("Full Name", validators=[InputRequired()])
 
 
 class InviteForm(FlaskForm):

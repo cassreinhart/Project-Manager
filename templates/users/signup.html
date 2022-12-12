@@ -7,7 +7,7 @@ Create an Account
 {% block content %}
 <div>
     <h3>Sign Up</h3>
-    <form method="post" id="add-assignment-form">
+    <form method="post" id="register-form">
         {{ form.hidden_tag() }}
         {% for field in form if field.widget.input_type != 'hidden' %}
         <p>
