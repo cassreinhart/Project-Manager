@@ -20,7 +20,7 @@ class People(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    assignments = db.relationship('PeopleProject', backref='people')
+    
 
 class Project(db.Model):
     """A project"""
@@ -30,7 +30,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(250), nullable=False)
-    assignments = db.relationship('PeopleProject', backref='project')
+    assignments = db.relationship('UserProject', backref='project')
     todos = db.relationship('Todo')
     # todos = db.relationship('ProjectTodos', backref='project')
 
@@ -53,12 +53,12 @@ class Todo(db.Model):
 #     todo_id = db.Column(db.Integer, db.ForeignKey('todos.id'), primary_key=True)
 #     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
 
-class PeopleProject(db.Model):
+class UserProject(db.Model):
     """People assigned to a project"""
 
-    __tablename__ = 'people_projects'
+    __tablename__ = 'user_projects'
 
-    people_id = db.Column(db.Integer, db.ForeignKey('people.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
 
 
@@ -74,41 +74,40 @@ class Message(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
 
 
-# class User(db.Model):
-#     """User."""
+class User(db.Model):
+    """User."""
 
-#     __tablename__ = 'users'
+    __tablename__ = 'users'
 
-#     username = db.Column(db.Text, primary_key = True, unique = True)
-#     password = db.Column(db.Text, nullable = False)
-#     email = db.Column(db.Text, nullable = False)
-#     first_name = db.Column(db.Text, nullable = False)
-#     last_name = db.Column(db.Text, nullable = False)
+    username = db.Column(db.Text, primary_key = True, unique = True)
+    password = db.Column(db.Text, nullable = False)
+    email = db.Column(db.Text, nullable = False)
+    full_name = db.Column(db.Text, nullable = False)
+    assignments = db.relationship('UserProject', backref='user')
 
-#     @classmethod
-#     def register(cls, username, pwd, email, first_name, last_name):
-#         """Register user with hashed password, return user"""
+    @classmethod
+    def register(cls, username, pwd, email, full_name,):
+        """Register user with hashed password, return user"""
 
-#         hashed = bcrypt.generate_password_hash(pwd)
-#         hashed_utf8 = hashed.decode('utf8')
-#         user = cls(
-#             username=username, 
-#             password=hashed_utf8,
-#             email=email,
-#             first_name=first_name,
-#             last_name=last_name,
-#         )
+        hashed = bcrypt.generate_password_hash(pwd)
+        hashed_utf8 = hashed.decode('utf8')
+        user = cls(
+            username=username, 
+            password=hashed_utf8,
+            email=email,
+            full_name=full_name,
+        )
 
-#         return user
+        return user
 
-#     @classmethod
-#     def authenticate(cls, username, pwd):
-#         """Verify that the user is who they say they are by 
-#         checking input against hashed password, then return user"""
+    @classmethod
+    def authenticate(cls, username, pwd):
+        """Verify that the user is who they say they are by 
+        checking input against hashed password, then return user"""
 
-#         u = User.query.filter_by(username=username).first()
+        u = User.query.filter_by(username=username).first()
 
-#         if u and bcrypt.check_password_hash(u.password, pwd):
-#             return u
-#         else:
-#             return False
+        if u and bcrypt.check_password_hash(u.password, pwd):
+            return u
+        else:
+            return False

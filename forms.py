@@ -23,23 +23,40 @@ class ProjectForm(FlaskForm):
     name = StringField("Project Name", validators=[InputRequired()])
     description = TextAreaField("Description", validators=[InputRequired()])
 
-class PeopleForm(FlaskForm):
-    """Form for adding a new Person"""
+# class PeopleForm(FlaskForm):
+#     """Form for adding a new Person"""
 
-    name = StringField("Name", validators=[InputRequired()])
-    email = EmailField("Gmail", validators=[InputRequired(), Email()])
+#     name = StringField("Name", validators=[InputRequired()])
+#     email = EmailField("Gmail", validators=[InputRequired(), Email()])
 
 class AssignmentForm(FlaskForm):
     """Form for assigning People to a Project"""
 
-    person = SelectField("Person", coerce=int)
+    user = SelectField("User", coerce=int)
     project = SelectField("Project", coerce=int)
 
 
+# class UserForm(FlaskForm):
+#     """Form for adding users."""
+
+#     username = StringField('Username', validators=[DataRequired()])
+#     email = StringField('E-mail', validators=[DataRequired(), Email()])
+#     password = PasswordField('Password', validators=[Length(min=6)])
 
 
+# class UserEditForm(FlaskForm):
+#     """Form for editing users."""
+
+#     username = StringField('Username', validators=[DataRequired()])
+#     email = StringField('E-mail', validators=[DataRequired(), Email()])
+#     password = PasswordField('Password', validators=[Length(min=6)])
 
 
+class LoginForm(FlaskForm):
+    """Login form."""
+
+    username = StringField('Username', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[Length(min=6)], InputRequired())
 
 
 class RegisterForm(FlaskForm):
@@ -53,8 +70,7 @@ class RegisterForm(FlaskForm):
     last_name = StringField("Last Name", validators=[InputRequired()])
 
 
-class LoginForm(FlaskForm):
-    """Form for logging in a user."""
+class InviteForm(FlaskForm):
+    """Form for inviting a user to sign up."""
 
-    username = StringField("Username", validators=[InputRequired()])
-    password = PasswordField("Password", validators=[InputRequired()])
+    email = EmailField("Email", validators=[InputRequired(), Email()])

@@ -19,9 +19,9 @@ Projects
         
         {% endif %}
     </div>
-    <div>
+    <div class="form">
         <h3>Add a Project</h3>
-        <form method="post" id="add-project-form">
+        <form method="post" id="add-project-form" class="mb-3">
             {{ form.hidden_tag() }}
             {% for field in form if field.widget.input_type != 'hidden' %}
             <p>
