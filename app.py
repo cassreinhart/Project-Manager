@@ -155,7 +155,7 @@ def register_user():
 
         return redirect("/")
 
-    return render_template('/user/add_user.html', form = form)
+    return render_template('/users/signup.html', form = form)
 
 #################### PROJECT VIEWS ##############################
 

@@ -28,8 +28,8 @@ class UserProject(db.Model):
 
     __tablename__ = 'user_projects'
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, ondelete="cascade")
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True, ondelete="cascade")
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), primary_key=True,)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete="CASCADE"), primary_key=True,)
 
 class User(db.Model):
     """User."""
@@ -43,7 +43,7 @@ class User(db.Model):
     full_name = db.Column(db.Text, nullable = False)
     assigments = db.relationship(
         "User",
-        secondary="UserProject",
+        secondary="user_projects",
         primaryjoin=(UserProject.user_id == id)
     )
 
@@ -87,6 +87,8 @@ class Project(db.Model):
     todos = db.relationship('Todo')
     # todos = db.relationship('ProjectTodos', backref='project')
 
+
+
 class Todo(db.Model):
     """A todo for a certain project"""
 
@@ -95,7 +97,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     detail = db.Column(db.String(250))
-    project_id = db.Column(db.ForeignKey('project.id'))
+    project_id = db.Column(db.ForeignKey('project.id', ondelete="cascade"))
     project = db.relationship('Project')
 
 
@@ -109,5 +111,5 @@ class Message(db.Model):
     title = db.Column(db.String(100), nullable = False)
     content = db.Column(db.Text, nullable = False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow(),)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete="cascade"))
 
