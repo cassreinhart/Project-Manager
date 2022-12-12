@@ -6,11 +6,11 @@ from authlib.integrations.flask_client import OAuth
 
 from forms import ProjectForm, RegisterForm, TodoForm, AssignmentForm, MessageForm, LoginForm
 from models import db, connect_db, User, Project, UserProject, Message, Todo
-# from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError
 
 # from dotenv import auth_uri
 
-
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
@@ -82,18 +82,16 @@ def do_logout():
 def index():
 
     if g.user:
-        following_ids = [f.id for f in g.user.following] + [g.user.id]
+        project_ids = [p.id for p in g.user.assigments]
 
         messages = (Message
                     .query
-                    .filter(Message.user_id.in_(following_ids))
+                    .filter(Message.project_id.in_(project_ids))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
 
-        liked_msg_ids = [msg.id for msg in g.user.likes]
-
-        return render_template('home.html', messages=messages, likes=liked_msg_ids)
+        return render_template('index.html', messages=messages)
 
     else:
         return redirect('/user/register')
@@ -257,8 +255,3 @@ def send_message():
         db.session.commit()
         return redirect(f'/project/{project_id}')
     return render_template('/message/add.html', form = form)
-
-
-# @app.route('/message/new', methods=['GET', 'POST'])
-# def send_message():
-#     """Send a message, show form and handle"""
