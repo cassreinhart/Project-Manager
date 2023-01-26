@@ -1,0 +1,31 @@
+.form {
+    margin: 2rem;
+    /* text-align: center; */
+}
+.form label {
+    font-size: 2rem;
+}
+.form input, .form textarea {
+    width: 100%;
+    border-radius: 5px;
+}
+
+@media screen and (min-width:700px) {
+    .form {
+        margin: 2rem;
+        padding: 1rem;
+        /* color: #e5e1ee; */
+    }
+    .form label {
+        font-size: 1.5rem;
+        padding-right: 1rem;
+    }
+    .form input, .form textarea {
+        width: 10rem;
+        border: none;
+    }
+}
+
+@media screen and (min-width:300px) {
+
+}
