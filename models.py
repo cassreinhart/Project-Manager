@@ -14,14 +14,6 @@ def connect_db(app):
     db.init_app(app)
 
 
-# class People(db.Model):
-#     """A person working on projects and tasks."""
-
-#     __tablename__ = 'people'
-
-#     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-#     name = db.Column(db.String(100), nullable=False, unique=True)
-#     email = db.Column(db.String(100), nullable=False, unique=True)
 
 class UserProject(db.Model):
     """People assigned to a project"""
