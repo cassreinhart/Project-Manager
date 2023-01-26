@@ -17,9 +17,14 @@
         <nav>
             <a href="/"><img src="/static/project_manager_logo.png" alt="project_manager_logo" id="logo"></a>
             <ul id="navbar-list">
+                {% if g.user %}
                 <li class="navbar-list-item"><a href="/projects">Projects</a></li>
                 <li class="navbar-list-item"><a href="/person/add">Assign</a></li>
                 <li class="navbar-list-item"><a href="/message">Message</a></li>
+                <li class="nav-bar-list-item log"><a href="/logout">Logout</a></li>
+                {% else %}
+                <li class="nav-bar-list-item log"><a href="/login">Login</a></li>
+                {% endif %}
             </ul>
             <a id="dropdown-menu-icon"><i class="fa-solid fa-bars fa-4x"></i></a>
         </nav>
