@@ -37,7 +37,9 @@ nav {
     position: relative;
     /* left: 100px;
     top: 80px; */
-    height: 0px;
+    /* height: 0px; */
+    height: auto;
+    /* visibility: hidden; */
     width: 100%;
     /* display: block; */
     overflow: hidden;
@@ -47,8 +49,10 @@ nav {
     padding: 0;
 }
 #navbar-list .active {
-    height: 243px;
-    /* height: auto; */
+    /* height: 243px; */
+    color: pink;
+    visibility: visible;
+    display: block;
     /* position: absolute; */
 }
 .navbar-list-item a {
@@ -111,6 +115,9 @@ div {
 .form input, .form textarea {
     width: 100%;
     border-radius: 5px;
+}
+.nav-items-hide {
+    display: none;
 }
 button {
     border: none;
