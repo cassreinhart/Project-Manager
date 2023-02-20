@@ -82,7 +82,7 @@ def do_logout():
 def index():
 
     if g.user:
-        project_ids = [p.id for p in g.user.assigments]
+        project_ids = [p.id for p in g.user.projects]
         projects = (Project.query.filter(Project.id.in_(project_ids)))
 
         messages = (Message
@@ -165,7 +165,7 @@ def register_user():
 def all_projects():
     """show all projects with a form for adding new projects. Handle add project form."""
     if g.user:
-        # project_ids = [p.id for p in g.user.assigments]
+        # project_ids = [p.id for p in g.user.assignments]
         project_ids = [p.id for p in Project.query.all()] ############### how to grab projects only I made/am assigned to?
         projects = (Project.query.filter(Project.id.in_(project_ids)))
 
@@ -179,7 +179,7 @@ def all_projects():
             db.session.add(project) ############### Should I add the user to the assignments or create a new row on UserProjects table?
             db.session.commit()
 
-            return redirect(f'/project/{project_id}') ########### How can I grab the project id for the project I just created???
+            return redirect(f'/projects/{project.id}') ########### How can I grab the project id for the project I just created???
 
         return render_template('/project/projects.html', projects = projects, form = form)
     
@@ -194,8 +194,17 @@ def get_project(project_id):
 
     project = Project.query.get_or_404(project_id)
     todos = (Todo.query.filter(Todo.project_id == project_id))
+    # user_ids = UserProject.query.filter(UserProject.project_id == project_id);
+    # users = [u for u in User.query.filter(user_ids)]
+    # users = User.query.filter(User.projects.id == project_id)
+    # users = User.query.filter(User.id in project.assignments)
+    assignments = project.assignments
+    users = User.query.filter(project.id in assignments.project_id)
+    # import pdb
+    # pdb.set_trace()
+    ############## having trouble getting users assigned to the project ################
 
-    return render_template('/project/detail.html', project=project, todos = todos)
+    return render_template('/project/detail.html', project=project, todos = todos, users= users)
 
 @app.route('/projects/<int:project_id>/assignments')
 def show_assignments(project_id):
@@ -205,9 +214,9 @@ def show_assignments(project_id):
         return redirect("/")
 
     project = Project.query.get(project_id)
-    people = project.assignments
+    users = project.assignments
 
-    return render_template('/project/assignments.html', people = people, project = project)
+    return render_template('/project/assignments.html', users = users, project = project)
 
 @app.route('/projects/<int:project_id>/assignments/add', methods=['GET', 'POST'])
 def add_assignments(project_id):
@@ -223,17 +232,21 @@ def add_assignments(project_id):
     projects = [(p.id, p.name) for p in Project.query.all()]
     form.project.choices = projects
 
-    users = [(p.id, p.name) for p in People.query.all()]
-    form.user.choices = users
+    users = [(u.id, u.username) for u in User.query.all()]
+    form.user_id.choices = users
 
     if form.validate_on_submit():
         user = form.user_id.data ################ How to grab data from select field-- see handle_message_form
-        assignment = PeopleProject(project_id = project_id, people_id = person.id) ### just pass in person id???
+        assignment = UserProject(project_id = project_id, user_id = user) ### just pass in person id???
         db.session.add(assignment)
         db.session.commit()
-        return redirect(f'/projects/{project_id}/assigments')
+        return redirect(f'/projects/{project_id}/assignments')
 
-    return render_template('/project/add_assignee.html', project = project, form = form)
+    return render_template('/project/add_assignee.html', users = users, form = form, project= project)
+
+
+
+    ############### CRUD Todo Routes ##############
 
 @app.route('/projects/<int:project_id>/add-todo', methods=['GET', 'POST'])
 def add_todo_to_project(project_id):
@@ -260,6 +273,10 @@ def add_todo_to_project(project_id):
     
     return render_template('/project/add_todo.html', form = form, todos = todos)
 
+@app.route('/projects/<int:project_id>/edit-todo', methods=['PATCH'])
+def edit_existing_todo(project_id):
+    """Update todo"""
+    return 'hi'
 
 #################### MESSAGE VIEWS ##############################
 
@@ -274,7 +291,7 @@ def send_message():
     form = MessageForm()
 
     projects = [(p.id, p.name) for p in Project.query.all()]
-    form.project.choices = projects
+    form.project_id.choices = projects
 
     if form.validate_on_submit():
         from_user = form.from_user.data

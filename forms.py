@@ -5,10 +5,10 @@ from wtforms.validators import InputRequired, EqualTo, Email, Length
 class MessageForm(FlaskForm):
     """Form for sending a message to the team"""
 
-    from_user = StringField("From", validators=[InputRequired()])
+    from_user = StringField("From")
     title = StringField("Title", validators=[InputRequired()])
     content = TextAreaField("Message")
-    project = SelectField("Project", coerce=int)
+    project_id = SelectField("Project", coerce=int)
 
 class TodoForm(FlaskForm):
     """Form for adding a todo to a project"""
@@ -32,7 +32,7 @@ class ProjectForm(FlaskForm):
 class AssignmentForm(FlaskForm):
     """Form for assigning People to a Project"""
 
-    user = SelectField("User", coerce=int)
+    user_id = SelectField("User", coerce=int)
     project = SelectField("Project", coerce=int)
 
 

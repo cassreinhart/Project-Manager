@@ -17,23 +17,24 @@ Project {{ project.name }}
             {{ todo.name }}
             <p>{{ todo.detail }}</p>
         </li>
+        <i class="fa-solid fa-trash-can"><a href="/"></a></i>
         {% endfor %}
         
     </ul>
     {% else %}
     <p>No Todos Yet.</p>
     {% endif %}
-    <form action="/project/{{project.id}}/add-todo">
+    <form action="/projects/{{project.id}}/add-todo">
         <button type="submit">Add Todo</button>
     </form>
 </div>
 
 <div>
     <h3>Assignees</h3>
-    {% if people %}
+    {% if users %}
     <ul>
-        {% for p in people %}
-        <li>Name: {{p.name}} <a href="mailto:{{p.email}}">{{p.email}}</a></li>
+        {% for u in users %}
+        <li>Name: {{u.name}} <a href="mailto:{{u.email}}">{{u.email}}</a></li>
         {% endfor %}
     </ul>
     {% else %}

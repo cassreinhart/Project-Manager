@@ -13,15 +13,18 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+class Project(db.Model):
+    """A project"""
 
+    __tablename__ = 'project'
 
-class UserProject(db.Model):
-    """People assigned to a project"""
-
-    __tablename__ = 'user_projects'
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), primary_key=True,)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete="CASCADE"), primary_key=True,)
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    assignments = db.relationship('UserProject', backref='project')
+    messages = db.relationship('Message')
+    todos = db.relationship('Todo')
+    # todos = db.relationship('ProjectTodos', backref='project')
 
 class User(db.Model):
     """User."""
@@ -33,11 +36,14 @@ class User(db.Model):
     password = db.Column(db.Text, nullable = False)
     email = db.Column(db.Text, nullable = False)
     full_name = db.Column(db.Text, nullable = False)
-    assigments = db.relationship(
-        "User",
-        secondary="user_projects",
-        primaryjoin=(UserProject.user_id == id)
-    )
+    assigments = db.relationship('UserProject', backref='users')
+    # projects = db.relationship(
+    #     "Project",
+    #     secondary="user_projects",
+    #     backref = 'users'
+    # )
+    projects = db.relationship( #this instead of lines 58 & 41
+        'Project', secondary="user_projects", backref="users")
 
     @classmethod
     def register(cls, username, password, email, full_name,):
@@ -66,18 +72,17 @@ class User(db.Model):
         else:
             return False    
 
-class Project(db.Model):
-    """A project"""
 
-    __tablename__ = 'project'
 
-    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-    name = db.Column(db.Text, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    assignments = db.relationship('UserProject', backref='project')
-    messages = db.relationship('Message')
-    todos = db.relationship('Todo')
-    # todos = db.relationship('ProjectTodos', backref='project')
+
+class UserProject(db.Model):
+    """People assigned to a project"""
+
+    __tablename__ = 'user_projects'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), primary_key=True,)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete="CASCADE"), primary_key=True,)
+
 
 
 
